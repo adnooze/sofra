@@ -1,0 +1,139 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+import logo from '../assets/ig/logo.jpg';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="wrap footer__grid">
+    <div class="footer__brand">
+      <Image src={logo} alt="Sofra logo" width={72} height={72} class="footer__logo" />
+      <p>{site.description}</p>
+    </div>
+
+    <div>
+      <h3>Navigacija</h3>
+      <ul>
+        <li><a href="#ponuda">Ponuda</a></li>
+        <li><a href="#cjenovnik">Cjenovnik</a></li>
+        <li><a href="#ketering">Ketering</a></li>
+        <li><a href="#prica">Naša priča</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h3>Kontakt</h3>
+      <ul>
+        <li><a href={site.mapsUrl} target="_blank" rel="noopener">{site.address}</a></li>
+        <li><a href={site.phoneHref}>{site.phone}</a></li>
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h3>Radno vrijeme</h3>
+      <ul>
+        {
+          site.hours.map((h) => (
+            <li>
+              {h.days}: {h.time}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+
+  <div class="wrap footer__bottom">
+    <span>© {year} Sofra · Ketering & Bakery, Zenica</span>
+    <span class="footer__social">
+      <a href={site.instagram} target="_blank" rel="noopener" class="footer__ig">
+        <Icon name="instagram" />
+        {site.instagramHandle}
+      </a>
+      <a href={site.tiktok} target="_blank" rel="noopener">TikTok</a>
+    </span>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--espresso-2);
+    color: rgba(247, 240, 231, 0.75);
+    padding: 72px 0 28px;
+    font-size: 13.5px;
+  }
+  .footer__grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1.2fr 1.2fr;
+    gap: 40px;
+  }
+  :global(.footer__logo) {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    margin-bottom: 18px;
+  }
+  .footer__brand p {
+    max-width: 320px;
+  }
+  .footer h3 {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--tan);
+    margin-bottom: 16px;
+  }
+  .footer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+  }
+  .footer a:hover {
+    color: var(--cream);
+  }
+  .footer__bottom {
+    margin-top: 56px;
+    padding-top: 22px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 12px;
+  }
+  .footer__social {
+    display: inline-flex;
+    align-items: center;
+    gap: 22px;
+  }
+  .footer__ig {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  @media (max-width: 900px) {
+    .footer__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .footer__brand {
+      grid-column: span 2;
+    }
+  }
+  @media (max-width: 520px) {
+    .footer__grid {
+      grid-template-columns: 1fr;
+    }
+    .footer__brand {
+      grid-column: span 1;
+    }
+  }
+</style>

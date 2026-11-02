@@ -1,0 +1,172 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import { posts } from '../data/site';
+import bakery from '../assets/ig/sofra-bakery.jpg';
+---
+
+<section class="story" id="prica">
+  <div class="story__text">
+    <Icon name="leaf" size={110} class="story__leaf" />
+    <div class="story__inner">
+      <span class="eyebrow">Naša priča</span>
+      <h2>Pravljeno sa srcem.<br />Pečeno s pažnjom.</h2>
+      <p>
+        Sofra Bakery otvorena je 15. augusta 2025. u Crkvicama 3 — kao početak jednog sna koji se gradio dugo i
+        strpljivo. Specijaliteti koji su godinama oduševljavali goste na proslavama sada su dostupni svakog dana.
+      </p>
+      <p>Naša želja je jednostavna: da Sofra bude mjesto gdje ćete uvijek pronaći toplinu i okus doma.</p>
+      <a href={posts.otvorenje} target="_blank" rel="noopener" class="btn btn--ghost-dark">Otkrij našu priču</a>
+    </div>
+
+    <svg class="seal" viewBox="0 0 120 120" aria-hidden="true">
+      <defs>
+        <path id="seal-circle" d="M60 60 m-46 0 a46 46 0 1 1 92 0 a46 46 0 1 1 -92 0" />
+      </defs>
+      <circle cx="60" cy="60" r="57" fill="none" stroke="currentColor" stroke-width="0.6"></circle>
+      <circle cx="60" cy="60" r="35" fill="none" stroke="currentColor" stroke-width="0.6"></circle>
+      <text font-size="8.4" letter-spacing="3.2" fill="currentColor">
+        <textPath href="#seal-circle">SOFRA · KETERING · BAKERY · ZENICA ·</textPath>
+      </text>
+      <text x="60" y="58" text-anchor="middle" font-size="13" font-family="Playfair Display, serif" fill="currentColor"
+        >Sofra</text
+      >
+      <text x="60" y="72" text-anchor="middle" font-size="6.5" letter-spacing="1.5" fill="currentColor">EST. 2025</text>
+    </svg>
+  </div>
+
+  <div class="story__media">
+    <Image
+      src={bakery}
+      alt="Pult u Sofra Bakery s logom i vitrinom kolača"
+      widths={[700, 1100, 1440]}
+      sizes="(max-width: 900px) 100vw, 55vw"
+    />
+    <a href={posts.gulsah} target="_blank" rel="noopener" class="play">
+      <span class="play__ring">
+        <Icon name="play" size={22} />
+        <span class="play__label">Pogledaj<br />video</span>
+      </span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .story {
+    display: grid;
+    grid-template-columns: 46% 54%;
+    min-height: 560px;
+  }
+
+  .story__text {
+    position: relative;
+    background: var(--cream-2);
+    display: flex;
+    align-items: center;
+    padding: 80px clamp(24px, 7vw, 110px);
+    overflow: hidden;
+  }
+  :global(.story__leaf) {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    color: #c9b39c;
+    opacity: 0.7;
+  }
+  .story__inner {
+    position: relative;
+    max-width: 420px;
+  }
+  .story h2 {
+    margin: 18px 0 24px;
+    font-size: clamp(30px, 3.2vw, 42px);
+    color: var(--ink);
+  }
+  .story p {
+    color: var(--cocoa);
+    font-size: 14.5px;
+    margin-bottom: 14px;
+  }
+  .story .btn {
+    margin-top: 18px;
+  }
+
+  .seal {
+    position: absolute;
+    right: 28px;
+    bottom: 28px;
+    width: 116px;
+    color: #b59a80;
+    opacity: 0.75;
+    animation: spin 40s linear infinite;
+  }
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .story__media {
+    position: relative;
+    background: var(--espresso);
+    overflow: hidden;
+  }
+  .story__media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 60%;
+    filter: brightness(0.62) contrast(1.05) saturate(0.9);
+  }
+
+  .play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: rgba(247, 240, 231, 0.12);
+    display: grid;
+    place-items: center;
+    transition: transform 0.35s ease;
+  }
+  .play:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+  .play__ring {
+    width: 112px;
+    height: 112px;
+    border-radius: 50%;
+    background: var(--cream);
+    color: var(--brown);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .play__label {
+    font-size: 8.5px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 900px) {
+    .story {
+      grid-template-columns: 1fr;
+    }
+    .story__text {
+      padding: 72px var(--gutter) 150px;
+    }
+    .story__media {
+      height: 420px;
+    }
+  }
+</style>

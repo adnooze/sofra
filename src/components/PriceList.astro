@@ -1,0 +1,305 @@
+---
+import { priceList, highlights, site } from '../data/site';
+
+const pick = (titles: string[]) => titles.map((t) => priceList.find((g) => g.title === t)!).filter(Boolean);
+const columns = [
+  pick(['Specijalitet kuće', 'Slana jela', 'Zdrave opcije']),
+  pick(['Deserti', 'Torte po narudžbi', 'Pića', 'Plate']),
+];
+---
+
+<section class="prices" id="cjenovnik">
+  <div class="wrap">
+    <div class="card">
+      <span class="star star--tl" aria-hidden="true">✦</span>
+      <span class="star star--tr" aria-hidden="true">✦</span>
+      <span class="star star--bl" aria-hidden="true">✦</span>
+      <span class="star star--br" aria-hidden="true">✦</span>
+      <span class="watermark" aria-hidden="true">SOFRA</span>
+
+      <header class="card__head">
+        <span class="kicker">Bakery · Ketering · Est. 2025</span>
+        <h2>Sofra</h2>
+        <div class="rule"><span>Cjenovnik</span></div>
+      </header>
+
+      <div class="cols">
+        {
+          columns.map((col) => (
+            <div class="col">
+              {col.map((group) => (
+                <div class="group">
+                  <h3>
+                    <span class="orn" aria-hidden="true" />
+                    {group.title}
+                    <span class="orn" aria-hidden="true" />
+                  </h3>
+                  <ul>
+                    {group.items.map((it) => (
+                      <li>
+                        <span class="name">{it.name}</span>
+                        <span class="dots" aria-hidden="true" />
+                        <span class="price">{it.price}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="delivery">
+        <span class="delivery__label">Besplatna dostava</span>
+        <a href={site.phoneHref} class="delivery__phone">{site.phone}</a>
+        <span class="delivery__addr">{site.address}</span>
+      </div>
+    </div>
+
+    <p class="note">
+      Cijene su informativne i podložne promjenama. Aktuelni cjenovnik pogledajte na{' '}
+      <a href={highlights.cjenovnik} target="_blank" rel="noopener">Instagramu</a>.
+    </p>
+  </div>
+</section>
+
+<style>
+  .prices {
+    --gold: #c9a46c;
+    --gold-soft: rgba(201, 164, 108, 0.35);
+    position: relative;
+    padding: 110px 0 90px;
+    color: var(--cream);
+    background:
+      radial-gradient(70% 55% at 50% 0%, rgba(201, 164, 108, 0.12), transparent 70%),
+      radial-gradient(60% 50% at 50% 100%, rgba(91, 58, 38, 0.35), transparent 70%),
+      var(--espresso);
+  }
+
+  .card {
+    position: relative;
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: clamp(48px, 7vw, 88px) clamp(22px, 6vw, 80px) clamp(40px, 5vw, 64px);
+    overflow: hidden;
+  }
+
+  .star {
+    position: absolute;
+    color: var(--gold);
+    font-size: 15px;
+    line-height: 1;
+  }
+  .star--tl {
+    top: 26px;
+    left: 26px;
+  }
+  .star--tr {
+    top: 26px;
+    right: 26px;
+  }
+  .star--bl {
+    bottom: 26px;
+    left: 26px;
+  }
+  .star--br {
+    bottom: 26px;
+    right: 26px;
+  }
+
+  .watermark {
+    position: absolute;
+    left: 50%;
+    top: 52%;
+    transform: translate(-50%, -50%);
+    font-family: var(--serif);
+    font-size: clamp(120px, 22vw, 300px);
+    letter-spacing: 0.06em;
+    color: rgba(201, 164, 108, 0.04);
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  .card__head {
+    position: relative;
+    text-align: center;
+    margin-bottom: clamp(44px, 6vw, 72px);
+  }
+  .kicker {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .card__head h2 {
+    margin-top: 14px;
+    font-size: clamp(56px, 8vw, 96px);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0.02em;
+  }
+  .rule {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 16px;
+  }
+  .rule::before,
+  .rule::after {
+    content: '';
+    width: clamp(48px, 10vw, 110px);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold));
+  }
+  .rule::after {
+    transform: scaleX(-1);
+  }
+  .rule span {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(20px, 2.4vw, 26px);
+    color: var(--gold);
+    letter-spacing: 0.04em;
+  }
+
+  .cols {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 clamp(40px, 7vw, 100px);
+  }
+  .group + .group {
+    margin-top: 48px;
+  }
+  .group h3 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 22px;
+    font-family: var(--sans);
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-align: center;
+  }
+  .orn {
+    width: 5px;
+    height: 5px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    flex: none;
+  }
+
+  .group ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 12px;
+  }
+  .group li {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .name {
+    font-family: var(--serif);
+    font-size: 16.5px;
+    color: var(--cream);
+    line-height: 1.35;
+  }
+  .dots {
+    flex: 1;
+    min-width: 18px;
+    border-bottom: 1px dotted rgba(201, 164, 108, 0.45);
+    transform: translateY(-5px);
+  }
+  .price {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+
+  .delivery {
+    position: relative;
+    margin-top: clamp(48px, 6vw, 72px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+  }
+  .delivery__label {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(24px, 3vw, 32px);
+  }
+  .delivery__phone {
+    font-family: var(--serif);
+    font-size: clamp(22px, 2.6vw, 28px);
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    transition: color 0.2s ease;
+  }
+  .delivery__phone:hover {
+    color: var(--cream);
+  }
+  .delivery__addr {
+    margin-top: 6px;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(247, 240, 231, 0.55);
+  }
+
+  .note {
+    margin-top: 28px;
+    text-align: center;
+    font-size: 12.5px;
+    color: rgba(247, 240, 231, 0.5);
+  }
+  .note a {
+    color: var(--gold);
+    border-bottom: 1px solid currentColor;
+  }
+
+  @media (max-width: 800px) {
+    .prices {
+      padding: 72px 0 64px;
+    }
+    .cols {
+      grid-template-columns: 1fr;
+    }
+    .col + .col {
+      margin-top: 48px;
+    }
+    .star--tl,
+    .star--tr {
+      top: 20px;
+    }
+    .star--tl,
+    .star--bl {
+      left: 20px;
+    }
+    .star--tr,
+    .star--br {
+      right: 20px;
+    }
+    .star--bl,
+    .star--br {
+      bottom: 20px;
+    }
+    .name {
+      font-size: 15px;
+    }
+  }
+</style>

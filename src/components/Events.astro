@@ -1,0 +1,192 @@
+---
+import { Image } from 'astro:assets';
+import { posts, site } from '../data/site';
+import svadba from '../assets/ig/svadba.jpg';
+import medicinski from '../assets/ig/medicinski-fakultet.jpg';
+import villa from '../assets/ig/villa-aida.jpg';
+import zeda from '../assets/ig/ketering-zeda.jpg';
+import gulsah from '../assets/ig/gulsah.jpg';
+
+const events = [
+  {
+    title: 'Svadba na otvorenom',
+    text: 'Ketering okružen zelenilom i predivnim ambijentom prirode.',
+    img: svadba,
+    pos: '50% 35%',
+    href: posts.svadba,
+  },
+  {
+    title: 'Medicinski fakultet Zenica',
+    text: 'Dva dana keteringa za akademski događaj.',
+    img: medicinski,
+    pos: '50% 50%',
+    href: posts.medicinski,
+  },
+  {
+    title: '18. rođendan · Villa Aida',
+    text: 'Slavlje uz bogat izbor slanih i slatkih zalogaja.',
+    img: villa,
+    pos: '50% 50%',
+    href: posts.villaAida,
+  },
+  {
+    title: 'Korporativni ketering · Zeda',
+    text: 'Zalogaji koji spajaju dobar ukus i lijepu prezentaciju.',
+    img: zeda,
+    pos: '50% 45%',
+    href: posts.zeda,
+  },
+  {
+    title: 'Svečano otvaranje · Gulšah',
+    text: 'Gulšah i Sofra s posebnom radošću dodali svoj pečat.',
+    img: gulsah,
+    pos: '50% 62%',
+    href: posts.gulsah,
+  },
+];
+---
+
+<section class="events" id="ketering">
+  <div class="wrap">
+    <div class="events__head">
+      <span class="eyebrow">Ketering</span>
+      <h2>Za svaku priliku — po vašoj želji.</h2>
+      <p>
+        Svadbe, rođendani, poslovni događaji i proslave. Sve pripremamo i serviramo s pažnjom, baš onako kako volimo — a
+        vi uživate s gostima.
+      </p>
+    </div>
+
+    <ul class="events__grid">
+      {
+        events.map((e, i) => (
+          <li class:list={['ev', { 'ev--tall': i === 0 }]}>
+            <a href={e.href} target="_blank" rel="noopener">
+              <Image
+                src={e.img}
+                alt={e.title}
+                widths={[480, 800, 1200]}
+                sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw"
+                style={`object-position: ${e.pos}`}
+              />
+              <span class="ev__cap">
+                <span class="ev__title">{e.title}</span>
+                <span class="ev__text">{e.text}</span>
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="events__cta">
+      <a href={site.phoneHref} class="btn btn--solid">Dogovorite ketering</a>
+      <a href={site.instagram} target="_blank" rel="noopener" class="btn btn--ghost-light">Pišite nam u DM</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .events {
+    background: var(--espresso);
+    color: var(--cream);
+    padding: 100px 0;
+  }
+  .events__head {
+    max-width: 620px;
+    margin-bottom: 48px;
+  }
+  .events__head .eyebrow {
+    color: var(--tan);
+  }
+  .events h2 {
+    margin: 14px 0 18px;
+    font-size: clamp(30px, 3.6vw, 46px);
+  }
+  .events__head p {
+    color: rgba(247, 240, 231, 0.72);
+  }
+
+  .events__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr 1fr;
+    grid-template-rows: repeat(2, 280px);
+    gap: 14px;
+  }
+  .ev--tall {
+    grid-row: span 2;
+  }
+  .ev a {
+    position: relative;
+    display: block;
+    height: 100%;
+    overflow: hidden;
+  }
+  .ev img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+  }
+  .ev a:hover img {
+    transform: scale(1.04);
+  }
+  .ev a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(27, 19, 14, 0.88), transparent 55%);
+  }
+  .ev__cap {
+    position: absolute;
+    z-index: 1;
+    left: 22px;
+    right: 22px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .ev__title {
+    font-family: var(--serif);
+    font-size: 20px;
+  }
+  .ev__text {
+    font-size: 12.5px;
+    color: rgba(247, 240, 231, 0.75);
+  }
+
+  .events__cta {
+    margin-top: 44px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  @media (max-width: 1100px) {
+    .events__grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: none;
+      grid-auto-rows: 300px;
+    }
+    .ev--tall {
+      grid-row: span 1;
+      grid-column: span 2;
+    }
+  }
+  @media (max-width: 700px) {
+    .events {
+      padding: 72px 0;
+    }
+    .events__grid {
+      grid-template-columns: 1fr;
+      grid-auto-rows: 280px;
+    }
+    .ev--tall {
+      grid-column: span 1;
+    }
+  }
+</style>

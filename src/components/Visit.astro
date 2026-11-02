@@ -1,0 +1,193 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+import otvorenje from '../assets/ig/otvorenje-bakery.jpg';
+---
+
+<section class="visit" id="kontakt">
+  <div class="wrap visit__grid">
+    <div class="visit__info">
+      <span class="eyebrow">Posjetite nas</span>
+      <h2>Sofra Bakery u Crkvicama</h2>
+      <p class="visit__lead">
+        Svratite po svježa peciva, kolače i prirodne sokove — ili nas kontaktirajte za ketering po vašoj želji.
+      </p>
+
+      <dl class="facts">
+        <div>
+          <dt><Icon name="pin" /> Adresa</dt>
+          <dd><a href={site.mapsUrl} target="_blank" rel="noopener">{site.address}</a></dd>
+        </div>
+        <div>
+          <dt><Icon name="clock" /> Radno vrijeme</dt>
+          <dd>
+            <ul class="hours">
+              {
+                site.hours.map((h) => (
+                  <li>
+                    <span>{h.days}</span>
+                    <span>{h.time}</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </dd>
+        </div>
+        <div>
+          <dt><Icon name="phone" /> Telefon</dt>
+          <dd><a href={site.phoneHref}>{site.phone}</a></dd>
+        </div>
+        <div>
+          <dt><Icon name="mail" /> Email</dt>
+          <dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
+        </div>
+        <div>
+          <dt><Icon name="instagram" /> Instagram</dt>
+          <dd><a href={site.instagram} target="_blank" rel="noopener">{site.instagramHandle}</a></dd>
+        </div>
+      </dl>
+
+      <div class="visit__actions">
+        <a href={site.phoneHref} class="btn btn--solid">Pozovite nas</a>
+        <a href={site.mapsUrl} target="_blank" rel="noopener" class="btn btn--ghost-dark">Otvori u Google Maps</a>
+      </div>
+    </div>
+
+    <div class="visit__media">
+      <Image
+        src={otvorenje}
+        alt="Otvorenje Sofra Bakery u Crkvicama, Zenica"
+        widths={[600, 900, 1200]}
+        sizes="(max-width: 900px) 100vw, 45vw"
+      />
+      <iframe
+        class="map"
+        title="Mapa – Sofra, Crkvice 3, Zenica"
+        src="https://www.google.com/maps?q=Crkvice%203%2C%20Zenica&output=embed"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+</section>
+
+<style>
+  .visit {
+    background: var(--cream);
+    padding: 100px 0;
+  }
+  .visit__grid {
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+    gap: clamp(40px, 6vw, 90px);
+    align-items: center;
+  }
+  .visit h2 {
+    margin: 14px 0 16px;
+    font-size: clamp(30px, 3.4vw, 44px);
+  }
+  .visit__lead {
+    color: var(--cocoa);
+    max-width: 440px;
+  }
+
+  .facts {
+    margin: 34px 0 0;
+    display: grid;
+    gap: 0;
+  }
+  .facts > div {
+    display: grid;
+    grid-template-columns: 170px 1fr;
+    gap: 16px;
+    padding: 10px 0;
+  }
+  .facts dt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--brown);
+  }
+  .facts dd {
+    margin: 0;
+    color: var(--ink);
+  }
+  .facts dd a {
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+  .facts dd a:hover {
+    border-color: currentColor;
+  }
+  .hours {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .hours li {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    max-width: 300px;
+  }
+
+  .visit__actions {
+    margin-top: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .visit__media {
+    position: relative;
+    padding-bottom: 60px;
+  }
+  .visit__media img {
+    width: 82%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+  .map {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 56%;
+    aspect-ratio: 1;
+    border: 6px solid var(--paper);
+    box-shadow: 0 24px 40px -24px rgba(74, 51, 38, 0.6);
+    background: var(--cream-2);
+  }
+
+  @media (max-width: 900px) {
+    .visit {
+      padding: 72px 0;
+    }
+    .visit__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 520px) {
+    .facts > div {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+    .visit__media img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+    }
+    .visit__media {
+      padding-bottom: 0;
+    }
+    .map {
+      position: static;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      margin-top: 14px;
+      border: 0;
+    }
+  }
+</style>

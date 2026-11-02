@@ -1,0 +1,254 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+
+const links = [
+  { href: '#pocetna', label: 'Početna' },
+  { href: '#prica', label: 'Naša priča' },
+  { href: '#ketering', label: 'Ketering' },
+  { href: '#ponuda', label: 'Ponuda' },
+  { href: '#cjenovnik', label: 'Cjenovnik' },
+  { href: '#kontakt', label: 'Kontakt' },
+];
+---
+
+<header class="header" data-header>
+  <div class="header__inner">
+    <a href="#pocetna" class="logo" aria-label="Sofra – početna">
+      <span class="logo__word">SOFRA</span>
+      <span class="logo__sub">ketering · bakery</span>
+    </a>
+
+    <nav class="nav" aria-label="Glavna navigacija" data-nav>
+      <ul>
+        {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+      <a href={site.phoneHref} class="btn btn--solid nav__cta-mobile">Naruči · {site.phone}</a>
+    </nav>
+
+    <div class="tools">
+      <a href={site.instagram} target="_blank" rel="noopener" class="tool">
+        <Icon name="instagram" />
+        <span>Instagram</span>
+      </a>
+      <a href={site.mapsUrl} target="_blank" rel="noopener" class="tool">
+        <Icon name="pin" />
+        <span>Lokacija</span>
+      </a>
+      <a href={site.phoneHref} class="tool">
+        <Icon name="phone" />
+        <span>Pozovi</span>
+      </a>
+      <a href="#kontakt" class="btn btn--solid header__cta">Naruči</a>
+      <button class="menu-btn" type="button" aria-label="Otvori meni" aria-expanded="false" data-menu-btn>
+        <Icon name="menu" size={24} class="i-open" />
+        <Icon name="close" size={24} class="i-close" />
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]')!;
+  const btn = document.querySelector<HTMLButtonElement>('[data-menu-btn]')!;
+  const nav = document.querySelector<HTMLElement>('[data-nav]')!;
+
+  const onScroll = () => header.classList.toggle('is-solid', window.scrollY > 40);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  const setOpen = (open: boolean) => {
+    header.classList.toggle('is-open', open);
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'Zatvori meni' : 'Otvori meni');
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+  btn.addEventListener('click', () => setOpen(!header.classList.contains('is-open')));
+  nav.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+</script>
+
+<style>
+  .header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    color: var(--cream);
+    transition:
+      background-color 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+  .header.is-solid,
+  .header.is-open {
+    background: rgba(27, 19, 14, 0.96);
+  }
+  .header__inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 18px var(--gutter);
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .logo {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+  .logo__word {
+    font-family: var(--serif);
+    font-size: 28px;
+    letter-spacing: 0.08em;
+  }
+  .logo__sub {
+    margin-top: 5px;
+    font-size: 8.5px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--tan);
+  }
+
+  .nav {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+  .nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: clamp(18px, 2.4vw, 38px);
+  }
+  .nav ul a {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 6px 0;
+    position: relative;
+    white-space: nowrap;
+  }
+  .nav ul a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: var(--tan);
+    transform: scaleX(0);
+    transition: transform 0.25s ease;
+  }
+  .nav ul a:hover::after {
+    transform: scaleX(1);
+  }
+  .nav__cta-mobile {
+    display: none;
+  }
+
+  .tools {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
+  .tool {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    font-size: 8.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.9;
+    transition: color 0.2s ease;
+  }
+  .tool:hover {
+    color: var(--tan);
+  }
+  .header__cta {
+    margin-left: 8px;
+  }
+
+  .menu-btn {
+    display: none;
+    background: none;
+    border: 0;
+    color: inherit;
+    padding: 6px;
+    cursor: pointer;
+  }
+  .menu-btn :global(.i-close) {
+    display: none;
+  }
+  .is-open .menu-btn :global(.i-close) {
+    display: block;
+  }
+  .is-open .menu-btn :global(.i-open) {
+    display: none;
+  }
+
+  @media (max-width: 1080px) {
+    .tool span {
+      display: none;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .header__inner {
+      gap: 16px;
+      padding-top: 14px;
+      padding-bottom: 14px;
+    }
+    .tools {
+      margin-left: auto;
+      gap: 14px;
+    }
+    .header__cta,
+    .tool:nth-child(2) {
+      display: none;
+    }
+    .menu-btn {
+      display: block;
+    }
+    .nav {
+      position: fixed;
+      inset: 66px 0 0;
+      background: var(--espresso);
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: 32px var(--gutter);
+      gap: 32px;
+      opacity: 0;
+      visibility: hidden;
+      transition:
+        opacity 0.25s ease,
+        visibility 0.25s;
+    }
+    .is-open .nav {
+      opacity: 1;
+      visibility: visible;
+    }
+    .nav ul {
+      flex-direction: column;
+      gap: 0;
+    }
+    .nav ul a {
+      display: block;
+      font-family: var(--serif);
+      font-size: 26px;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      text-transform: none;
+      padding: 10px 0;
+    }
+    .nav ul a::after {
+      display: none;
+    }
+    .nav__cta-mobile {
+      display: inline-flex;
+      align-self: flex-start;
+    }
+  }
+</style>
